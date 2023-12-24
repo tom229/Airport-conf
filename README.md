@@ -22,6 +22,9 @@ iOS:
 2. 일반-정보-인증서신뢰설정 -> 始终信任
 ### -------------------------------
 
+## icon导入 quantumultx:
+1. icon.json文件先转raw链接
+
 ## Github Raw Link Generator:
 https://github-raw-link-generator.glitch.me
 
