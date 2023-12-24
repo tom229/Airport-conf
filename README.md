@@ -10,7 +10,7 @@ AppleID: yyg229@hotmail.com
 ## 使用方法：
 
 1. 进入文件后，转换raw格式链接。
-2. 或 下载conf文件，直接导入。
+2. or 下载conf文件，直接导入。
 
 ## 认证方法：
 Mac Os:
@@ -20,3 +20,8 @@ Mac Os:
 iOS:
 1. 生成证书 ->安装证书（일반-vpn및 기기관리)
 2. 일반-정보-인증서신뢰설정 -> 始终信任
+### -------------------------------
+
+## Github Raw Link Generator:
+https://github-raw-link-generator.glitch.me
+
