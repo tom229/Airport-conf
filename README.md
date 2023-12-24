@@ -1,6 +1,6 @@
 # Tom's 机场配置
 
-## 两个配置： 
+## 两个应用程序：AppleID: yyg229@hotmail.com
 
 1. QuantumultX
 2. Shadowrocket
