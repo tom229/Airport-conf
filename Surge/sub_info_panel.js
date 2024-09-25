@@ -119,15 +119,16 @@ function getRmainingDays(resetDay) {
   let today = now.getDate();
   let month = now.getMonth();
   let year = now.getFullYear();
-  let daysInMonth;
-
-  if (resetDay > today) {
-    daysInMonth = 0;
-  } else {
-    daysInMonth = new Date(year, month + 1, 0).getDate();
+  
+  // 如果重置日大于今天，则重置日在本月
+  if (resetDay >= today) {
+    return resetDay - today;
+  } 
+  // 否则重置日在下个月，计算当月剩余天数加上下个月的重置日
+  else {
+    let daysInMonth = new Date(year, month + 1, 0).getDate();  // 获取当前月的天数
+    return daysInMonth - today + resetDay;
   }
-
-  return daysInMonth - today + resetDay;
 }
 
 function bytesToSize(bytes) {
