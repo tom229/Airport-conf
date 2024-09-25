@@ -112,9 +112,7 @@ async function getDataInfo(url) {
   );
 }
 
-function getRmainingDays(resetDay) {
-  if (!resetDay) return;
-
+function getRmainingDays(resetDay, expireTimestamp) {
   let now = new Date();  // 当前时间
   let today = now.getDate();  // 今天的日期
   let currentMonth = now.getMonth();  // 当前月份
@@ -131,9 +129,19 @@ function getRmainingDays(resetDay) {
     resetDateThisMonth = new Date(nextYear, nextMonth, resetDay);
   }
 
+  // 如果有到期日(expireTimestamp)，优先计算到期日的剩余天数
+  if (expireTimestamp) {
+    let expireDate = new Date(expireTimestamp * 1000);  // 到期日时间戳是秒，需要乘以1000转换为毫秒
+    let expireDaysLeft = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24));
+
+    // 如果到期日比重置日早，返回到期日的剩余天数
+    if (expireDaysLeft < Math.ceil((resetDateThisMonth - now) / (1000 * 60 * 60 * 24))) {
+      return expireDaysLeft;
+    }
+  }
+
   // 计算当前时间和重置日之间的时间差（以毫秒为单位），然后转换为天数
-  let timeDifference = resetDateThisMonth - now;
-  let daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));  // 将毫秒转换为天数
+  let daysRemaining = Math.ceil((resetDateThisMonth - now) / (1000 * 60 * 60 * 24));  // 将毫秒转换为天数
 
   return daysRemaining;
 }
