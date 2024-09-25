@@ -115,20 +115,27 @@ async function getDataInfo(url) {
 function getRmainingDays(resetDay) {
   if (!resetDay) return;
 
-  let now = new Date();
-  let today = now.getDate();
-  let month = now.getMonth();
-  let year = now.getFullYear();
+  let now = new Date();  // 当前时间
+  let today = now.getDate();  // 今天的日期
+  let currentMonth = now.getMonth();  // 当前月份
+  let currentYear = now.getFullYear();  // 当前年份
   
-  // 如果重置日大于今天，则重置日在本月
-  if (resetDay >= today) {
-    return resetDay - today;
-  } 
-  // 否则重置日在下个月，计算当月剩余天数加上下个月的重置日
-  else {
-    let daysInMonth = new Date(year, month + 1, 0).getDate();  // 获取当前月的天数
-    return daysInMonth - today + resetDay;
+  // 构建当月的重置日时间对象
+  let resetDateThisMonth = new Date(currentYear, currentMonth, resetDay);
+  
+  // 如果当前日期已经超过本月的重置日，则计算下个月的重置日期
+  if (today > resetDay) {
+    // 构建下个月的重置日时间对象
+    let nextMonth = (currentMonth + 1) % 12;
+    let nextYear = currentMonth === 11 ? currentYear + 1 : currentYear;
+    resetDateThisMonth = new Date(nextYear, nextMonth, resetDay);
   }
+
+  // 计算当前时间和重置日之间的时间差（以毫秒为单位），然后转换为天数
+  let timeDifference = resetDateThisMonth - now;
+  let daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));  // 将毫秒转换为天数
+
+  return daysRemaining;
 }
 
 function bytesToSize(bytes) {
