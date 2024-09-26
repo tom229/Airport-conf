@@ -37,10 +37,19 @@ Sub_info = script-name=Sub_info,update-interval=600
   let used = info.download + info.upload;
   let total = info.total;
   let expire = args.expire || info.expire;
-  let content = [
-    `剩余：${toMultiply(total, used)} \t|  到期：${formatTime(expire)}`,
-  ];
-  content.push(`已用%：${toPercent(used, total)} \t|  已用：${used}`);
+  let content = [`已用：${toPercent(used, total)} \t|  剩余：${toMultiply(total, used)}`];
+
+  if (resetDayLeft || expire) {
+    if (resetDayLeft && expire && expire !== "false") {
+      if (/^[\d.]+$/.test(expire)) expire *= 1000;
+      content.push(`重置：${resetDayLeft}天 \t|  ${formatTime(expire)}`);
+    } else if (resetDayLeft && !expire) {
+      content.push(`重置：${resetDayLeft}天`);
+    } else if (!resetDayLeft && expire) {
+      if (/^[\d.]+$/.test(expire)) expire *= 1000;
+      content.push(`到期：${formatTime(expire)}`);
+    }
+  }
 
   let now = new Date();
   let hour = now.getHours();
@@ -77,9 +86,7 @@ function getUserInfo(url) {
         reject(resp.status);
         return;
       }
-      let header = Object.keys(resp.headers).find(
-        (key) => key.toLowerCase() === "subscription-userinfo"
-      );
+      let header = Object.keys(resp.headers).find((key) => key.toLowerCase() === "subscription-userinfo");
       if (header) {
         resolve(resp.headers[header]);
         return;
@@ -143,6 +150,7 @@ function toPercent(num, total) {
   return (Math.round((num / total) * 10000) / 100).toFixed(1) + "%";
 }
 
+
 function toMultiply(total, num) {
   let totalDecimalLen, numDecimalLen, maxLen, multiple;
   try {
@@ -157,9 +165,7 @@ function toMultiply(total, num) {
   }
   maxLen = Math.max(totalDecimalLen, numDecimalLen);
   multiple = Math.pow(10, maxLen);
-  const numberSize = ((total * multiple - num * multiple) / multiple).toFixed(
-    maxLen
-  );
+  const numberSize = ((total * multiple - num * multiple) / multiple).toFixed(maxLen);
   return bytesToSize(numberSize);
 }
 
@@ -170,4 +176,3 @@ function formatTime(time) {
   let day = dateObj.getDate();
   return "到期：" + year + "." + month + "." + day + " ";
 }
-
