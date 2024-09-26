@@ -27,6 +27,7 @@ Sub_info = script-name=Sub_info,update-interval=600
 */
 
 
+
 (async () => {
   let args = getArgs();
   let info = await getDataInfo(args.url);
@@ -36,19 +37,10 @@ Sub_info = script-name=Sub_info,update-interval=600
   let used = info.download + info.upload;
   let total = info.total;
   let expire = args.expire || info.expire;
-  let content = [`已用：${toPercent(used, total)} \t|  剩余：${toMultiply(total, used)}`];
-
-  if (resetDayLeft || expire) {
-    if (resetDayLeft && expire && expire !== "false") {
-      if (/^[\d.]+$/.test(expire)) expire *= 1000;
-      content.push(`重置：${resetDayLeft}天 \t|  ${formatTime(expire)}`);
-    } else if (resetDayLeft && !expire) {
-      content.push(`重置：${resetDayLeft}天`);
-    } else if (!resetDayLeft && expire) {
-      if (/^[\d.]+$/.test(expire)) expire *= 1000;
-      content.push(`到期：${formatTime(expire)}`);
-    }
-  }
+  let content = [
+    `剩余：${toMultiply(total, used)} \t|  到期：${formatTime(expire)}`,
+  ];
+  content.push(`已用%：${toPercent(used, total)} \t|  已用：${used}`);
 
   let now = new Date();
   let hour = now.getHours();
@@ -85,7 +77,9 @@ function getUserInfo(url) {
         reject(resp.status);
         return;
       }
-      let header = Object.keys(resp.headers).find((key) => key.toLowerCase() === "subscription-userinfo");
+      let header = Object.keys(resp.headers).find(
+        (key) => key.toLowerCase() === "subscription-userinfo"
+      );
       if (header) {
         resolve(resp.headers[header]);
         return;
@@ -112,38 +106,22 @@ async function getDataInfo(url) {
   );
 }
 
-function getRmainingDays(resetDay, expireTimestamp) {
-  let now = new Date();  // 当前时间
-  let today = now.getDate();  // 今天的日期
-  let currentMonth = now.getMonth();  // 当前月份
-  let currentYear = now.getFullYear();  // 当前年份
-  
-  // 构建当月的重置日时间对象
-  let resetDateThisMonth = new Date(currentYear, currentMonth, resetDay);
-  
-  // 如果当前日期已经超过本月的重置日，则计算下个月的重置日期
-  if (today > resetDay) {
-    // 构建下个月的重置日时间对象
-    let nextMonth = (currentMonth + 1) % 12;
-    let nextYear = currentMonth === 11 ? currentYear + 1 : currentYear;
-    resetDateThisMonth = new Date(nextYear, nextMonth, resetDay);
+function getRmainingDays(resetDay) {
+  if (!resetDay) return;
+
+  let now = new Date();
+  let today = now.getDate();
+  let month = now.getMonth();
+  let year = now.getFullYear();
+  let daysInMonth;
+
+  if (resetDay > today) {
+    daysInMonth = 0;
+  } else {
+    daysInMonth = new Date(year, month + 1, 0).getDate();
   }
 
-  // 如果有到期日(expireTimestamp)，优先计算到期日的剩余天数
-  if (expireTimestamp) {
-    let expireDate = new Date(expireTimestamp * 1000);  // 到期日时间戳是秒，需要乘以1000转换为毫秒
-    let expireDaysLeft = Math.ceil((expireDate - now) / (1000 * 60 * 60 * 24));
-
-    // 如果到期日比重置日早，返回到期日的剩余天数
-    if (expireDaysLeft < Math.ceil((resetDateThisMonth - now) / (1000 * 60 * 60 * 24))) {
-      return expireDaysLeft;
-    }
-  }
-
-  // 计算当前时间和重置日之间的时间差（以毫秒为单位），然后转换为天数
-  let daysRemaining = Math.ceil((resetDateThisMonth - now) / (1000 * 60 * 60 * 24));  // 将毫秒转换为天数
-
-  return daysRemaining;
+  return daysInMonth - today + resetDay;
 }
 
 function bytesToSize(bytes) {
@@ -165,7 +143,6 @@ function toPercent(num, total) {
   return (Math.round((num / total) * 10000) / 100).toFixed(1) + "%";
 }
 
-
 function toMultiply(total, num) {
   let totalDecimalLen, numDecimalLen, maxLen, multiple;
   try {
@@ -180,7 +157,9 @@ function toMultiply(total, num) {
   }
   maxLen = Math.max(totalDecimalLen, numDecimalLen);
   multiple = Math.pow(10, maxLen);
-  const numberSize = ((total * multiple - num * multiple) / multiple).toFixed(maxLen);
+  const numberSize = ((total * multiple - num * multiple) / multiple).toFixed(
+    maxLen
+  );
   return bytesToSize(numberSize);
 }
 
@@ -191,3 +170,4 @@ function formatTime(time) {
   let day = dateObj.getDate();
   return "到期：" + year + "." + month + "." + day + " ";
 }
+
