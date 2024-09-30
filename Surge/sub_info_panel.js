@@ -43,10 +43,9 @@ let args = getArgs();
   let total = info.total;
   let expire = args.expire || info.expire;
   let content = [`用量：${bytesToSize(used)} | ${bytesToSize(total)}`];
-
-  if (resetDayLeft) {
-    content.push(`已用：${toPercent(used, total)}`);
-  }
+  
+  let content = [`已用：${toPercent(used, total)} \t|`];
+  
   if (expire && expire !== "false") {
     if (/^[\d.]+$/.test(expire)) expire *= 1000;
     content.push(`到期：${formatTime(expire)}`);
