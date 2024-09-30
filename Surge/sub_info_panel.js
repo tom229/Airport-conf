@@ -143,8 +143,34 @@ function bytesToSize(bytes) {
   return (bytes / Math.pow(k, i)).toFixed(2) + " " + sizes[i];
 }
 
+function bytesToSizeNumber(bytes) {
+  if (bytes === 0) return "0";
+  let k = 1024;
+  let i = Math.floor(Math.log(bytes) / Math.log(k));
+  return (bytes / Math.pow(k, i)).toFixed(2);
+}
+
 function toPercent(num, total) {
   return (Math.round((num / total) * 10000) / 100).toFixed(1) + "%";
+}
+
+
+function toMultiply(total, num) {
+  let totalDecimalLen, numDecimalLen, maxLen, multiple;
+  try {
+    totalDecimalLen = total.toString().split(".").length;
+  } catch (e) {
+    totalDecimalLen = 0;
+  }
+  try {
+    numDecimalLen = num.toString().split(".").length;
+  } catch (e) {
+    numDecimalLen = 0;
+  }
+  maxLen = Math.max(totalDecimalLen, numDecimalLen);
+  multiple = Math.pow(10, maxLen);
+  const numberSize = ((total * multiple - num * multiple) / multiple).toFixed(maxLen);
+  return bytesToSize(numberSize);
 }
 
 function formatTime(time) {
