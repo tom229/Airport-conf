@@ -1,0 +1,153 @@
+{
+  "subs": [
+    {
+      "name": "FS_Cloud",
+      "displayName": "",
+      "form": "",
+      "mergeSources": "",
+      "ignoreFailedRemoteSub": false,
+      "icon": "https://raw.githubusercontent.com/cc63/ICON/main/icons/Catnet.png",
+      "process": [
+        {
+          "type": "Quick Setting Operator",
+          "args": {
+            "useless": "DISABLED",
+            "udp": "DEFAULT",
+            "scert": "DEFAULT",
+            "tfo": "DEFAULT",
+            "vmess aead": "DEFAULT"
+          }
+        },
+        {
+          "type": "Region Filter",
+          "args": [
+            "HK",
+            "SG",
+            "TW",
+            "JP"
+          ],
+          "id": "57454000.21686997"
+        },
+        {
+          "type": "Regex Filter",
+          "args": {
+            "keep": false,
+            "regex": [
+              "剩余流量|套餐到期|vless|一元百G|网址|永久域名|V1|F1"
+            ]
+          },
+          "id": "33207139.07159697"
+        },
+        {
+          "type": "Flag Operator",
+          "args": {
+            "mode": "add",
+            "tw": "tw"
+          },
+          "id": "15354342.515411401"
+        }
+      ],
+      "source": "remote",
+      "url": "https://sub.sub.sub.subsub123456789.com/answer/land?token=34fd199c30cc10c031d920e98c1f9b8b",
+      "content": "",
+      "ua": "",
+      "tag": [],
+      "display-name": ""
+    },
+    {
+      "name": "SD_Cloud",
+      "displayName": "",
+      "form": "",
+      "mergeSources": "",
+      "ignoreFailedRemoteSub": false,
+      "icon": "https://raw.githubusercontent.com/cc63/ICON/main/icons/BaiYueGuang.png",
+      "process": [
+        {
+          "type": "Quick Setting Operator",
+          "args": {
+            "useless": "DISABLED",
+            "udp": "DEFAULT",
+            "scert": "DEFAULT",
+            "tfo": "DEFAULT",
+            "vmess aead": "DEFAULT"
+          }
+        },
+        {
+          "type": "Region Filter",
+          "args": [
+            "HK",
+            "SG",
+            "TW",
+            "JP",
+            "US",
+            "KR"
+          ],
+          "id": "48196128.446264654"
+        },
+        {
+          "type": "Regex Filter",
+          "args": {
+            "keep": false,
+            "regex": [
+              "剩余流量|套餐到期|vless|一元百G|网址|永久域名|V1|F1"
+            ]
+          },
+          "id": "68668817.1536335"
+        },
+        {
+          "type": "Flag Operator",
+          "args": {
+            "mode": "add",
+            "tw": "tw"
+          },
+          "id": "78445733.02913882"
+        }
+      ],
+      "source": "remote",
+      "url": "http://47.130.5.184:1206/link/seBGDB1ytyLXqHIp?list=surge",
+      "content": "",
+      "ua": "",
+      "tag": [],
+      "display-name": ""
+    }
+  ],
+  "collections": [
+    {
+      "name": "Tom's Airport",
+      "displayName": "",
+      "form": "",
+      "mergeSources": "",
+      "ignoreFailedRemoteSub": false,
+      "icon": "https://raw.githubusercontent.com/cc63/ICON/main/icons/WestData.png",
+      "process": [
+        {
+          "type": "Quick Setting Operator",
+          "args": {
+            "useless": "DISABLED",
+            "udp": "DEFAULT",
+            "scert": "DEFAULT",
+            "tfo": "DEFAULT",
+            "vmess aead": "DEFAULT"
+          }
+        },
+        {
+          "type": "Sort Operator",
+          "args": "asc",
+          "id": "17128411.151622202"
+        }
+      ],
+      "subscriptions": [
+        "FS_Cloud",
+        "SD_Cloud"
+      ],
+      "tag": [],
+      "display-name": ""
+    }
+  ],
+  "artifacts": [],
+  "rules": [],
+  "schemaVersion": "2.0",
+  "files": [],
+  "modules": [],
+  "settings": {}
+}
