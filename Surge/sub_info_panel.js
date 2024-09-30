@@ -37,26 +37,27 @@ let args = getArgs();
 (async () => {
   let info = await getDataInfo(args.url);
   if (!info) $done();
-  let resetDayLeft = getRmainingDays(parseInt(args["reset_day"]));
+  let resetDayLeft = getRemainingDays(parseInt(args["reset_day"]));
 
   let used = info.download + info.upload;
   let total = info.total;
   let expire = args.expire || info.expire;
-  let content = [
-    `用量: ${bytesToSize(used)} /（${toPercent(used, total)}）`
-  ];
   
-  if (expire && expire !== "false") {
-    if (/^[\d.]+$/.test(expire)) expire *= 1000;
-    content.push(`到期: ${formatTime(expire)}`,
-    `更新: ${hour}:${minutes}`);
-  }
-
   let now = new Date();
   let hour = now.getHours();
   let minutes = now.getMinutes();
   hour = hour > 9 ? hour : "0" + hour;
   minutes = minutes > 9 ? minutes : "0" + minutes;
+
+  let content = [
+  `用量: ${bytesToSize(used)} /（${toPercent(used, total)}）`
+  ];
+
+  if (expire && expire !== "false") {
+  if (/^[\d.]+$/.test(expire)) expire *= 1000;
+  content.push(`到期: ${formatTime(expire)}`,
+  `更新: ${hour}:${minutes}`);
+  }
 
   $done({
     title: `机场: ${args.title}  |  总量: ${bytesToSize(total)}`,
@@ -75,8 +76,7 @@ function getArgs() {
   );
 }
 
-function getUserInfo(url) {
-  let method = args.method || "head";
+function getUserInfo(url, method = "head") {
   let request = { headers: { "User-Agent": "Quantumult%20X" }, url };
   return new Promise((resolve, reject) =>
     $httpClient[method](request, (err, resp) => {
@@ -117,7 +117,7 @@ async function getDataInfo(url) {
   );
 }
 
-function getRmainingDays(resetDay) {
+function getRemainingDays(resetDay) {
   if (!resetDay) return;
 
   let now = new Date();
@@ -178,5 +178,6 @@ function formatTime(time) {
   let year = dateObj.getFullYear();
   let month = dateObj.getMonth() + 1;
   let day = dateObj.getDate();
-  return year + "年" + month + "月" + day + "日";
-}
+  month = month > 9 ? month : "0" + month;
+  day = day > 9 ? day : "0" + day;
+  return year + "年" + month + "月" + day + "日";}
