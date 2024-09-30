@@ -42,9 +42,10 @@ let args = getArgs();
   let used = info.download + info.upload;
   let total = info.total;
   let expire = args.expire || info.expire;
-  let content = [`用量：${bytesToSize(used)} | ${bytesToSize(total)}`];
-  
-  let content = [`已用：${toPercent(used, total)} \t|`];
+  let content = [
+    `用量：${bytesToSize(used)} | ${bytesToSize(total)}`,
+    `已用：${toPercent(used, total)} \t|`
+  ];
   
   if (expire && expire !== "false") {
     if (/^[\d.]+$/.test(expire)) expire *= 1000;
