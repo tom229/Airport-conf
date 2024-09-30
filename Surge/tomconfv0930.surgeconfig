@@ -46,8 +46,9 @@ socks5-listen = 0.0.0.0
 台湾003 - hysteria2 = hysteria2, jiedianfsc.fsc.interld123456789.com, 22000, password=bf39c220-cd86-4e29-ab51-cd19e6cddb33, download-bandwidth=1000, skip-cert-verify=true, sni=cesuuu.1234567890spcloud.com
 韩国 V3|01(直连) = trojan, svip3hk2.166cc.top, 443, username=svip3hk2.166cc.top, password=2c45b9b0-1b0e-3c23-b850-b414811b8cd8
 韩国 V2|01 = trojan, sv2hktr1.162cc.top, 15445, username=sv2hktr1.162cc.top, password=2c45b9b0-1b0e-3c23-b850-b414811b8cd8
-⛔️ 禁止访问 = reject
 🎯 全球直连 = direct
+⛔️ 禁止访问 = reject
+
 
 [Proxy Group]
 # 代理分组类型：
@@ -78,12 +79,12 @@ socks5-listen = 0.0.0.0
 🇹🇼台湾节点 = select, include-other-group=🌏All_Server, policy-regex-filter=台湾|(🇹🇼)|(台)|(Tai)|(TW)|(🇨🇳)
 아프리카 = select, 🇭🇰 香港节点, 🇸🇬 新加坡, 🇯🇵 日本节点, 🇰🇷 韩国节点
 Youtube = select, 🇭🇰 香港节点, 🇺🇲 美国节点, 🇹🇼台湾节点
-🌏All_Server = select, policy-path=https://sub.store/download/collection/Tom's%20%E8%AE%A2%E9%98%85%E7%BB%84%E5%90%88?target=SurgeMac, update-interval=0
+🌏All_Server = select, policy-path=https://sub.store/download/collection/Tom's%20Airport?target=SurgeMac, update-interval=0
 🇸🇬 新加坡 = select, include-other-group=🌏All_Server, policy-regex-filter=新加坡
 🇯🇵 日本节点 = select, include-other-group=🌏All_Server, policy-regex-filter=日本
 🇺🇲 美国节点 = select, include-other-group=🌏All_Server, policy-regex-filter=美国
 🇰🇷 韩国节点 = select, include-other-group=🌏All_Server, policy-regex-filter=韩国
-🔰FS_Cloud = select, policy-path=https://sub.store/download/EFCloud?target=SurgeMac, update-interval=0
+🔰FS_Cloud = select, policy-path=https://sub.store/download/FS_Cloud?target=SurgeMac, update-interval=0
 🔰SD_Cloud = select, policy-path=https://sub.store/download/SD_Cloud?target=SurgeMac, update-interval=0
 Ⓜ️에펨코리아 = select, 🇭🇰 香港节点, 🎯 全球直连
 
@@ -128,6 +129,3 @@ Sub_info2 = type=generic,timeout=10,script-path=https://raw.githubusercontent.co
 
 Sub_info1 = script-name=Sub_info1,update-interval=600
 Sub_info2 = script-name=Sub_info2,update-interval=600
-
-
-
