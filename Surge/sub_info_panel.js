@@ -43,7 +43,7 @@ let args = getArgs();
   let total = info.total;
   let expire = args.expire || info.expire;
   let content = [
-    `用量：${bytesToSize(used)} /（ ${toPercent(used, total)} ）`,
+    `用量：${bytesToSize(used)} /（${toPercent(used, total)}）`,
     `总量：${bytesToSize(total)} \t`
   ];
   
