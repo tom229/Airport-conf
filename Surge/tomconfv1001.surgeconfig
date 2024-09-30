@@ -49,7 +49,6 @@ socks5-listen = 0.0.0.0
 🎯 全球直连 = direct
 ⛔️ 禁止访问 = reject
 
-
 [Proxy Group]
 # 代理分组类型：
 # select，手动选择节点。
@@ -77,8 +76,8 @@ socks5-listen = 0.0.0.0
 🚀 手动切换 = select, 日本aws - 002, 日本aws - 003, 新加坡aws - 002, 新加坡aws - 003, 香港002 - hysteria2, 香港003 - hysteria2, 台湾002 - hysteria2, 台湾003 - hysteria2, 韩国 V3|01(直连), 韩国 V2|01
 🇭🇰 香港节点 = select, include-other-group="🔰FS_Cloud, 🔰SD_Cloud", policy-regex-filter=(🇭🇰)|(港)|(Hong)|(HK)
 🇹🇼台湾节点 = select, include-other-group=🌏All_Server, policy-regex-filter=台湾|(🇹🇼)|(台)|(Tai)|(TW)|(🇨🇳)
-아프리카 = select, 🇭🇰 香港节点, 🇸🇬 新加坡, 🇯🇵 日本节点, 🇰🇷 韩国节点
-Youtube = select, 🇭🇰 香港节点, 🇺🇲 美国节点, 🇹🇼台湾节点
+아프리카 = select, 🇭🇰 香港节点, 🇸🇬 新加坡, 🇯🇵 日本节点, 🇰🇷 韩国节点, icon-url=https://raw.githubusercontent.com/tom229/Airport-conf/d0622dd5fd0d79923260bbcfa9ddb0fd024c7642/icon/tom-icons/AfreecaTV.png
+Youtube = select, 🇭🇰 香港节点, 🇺🇲 美国节点, 🇹🇼台湾节点, icon-url=https://raw.githubusercontent.com/tom229/Airport-conf/d0622dd5fd0d79923260bbcfa9ddb0fd024c7642/icon/tom-icons/YouTube.png
 🌏All_Server = select, policy-path=https://sub.store/download/collection/Tom's%20Airport?target=SurgeMac, update-interval=0
 🇸🇬 新加坡 = select, include-other-group=🌏All_Server, policy-regex-filter=新加坡
 🇯🇵 日本节点 = select, include-other-group=🌏All_Server, policy-regex-filter=日本
@@ -110,7 +109,7 @@ RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/hea
 RULE-SET,https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Surge/Apple/Apple_All.list,🎯 全球直连,update-interval=-1
 GEOIP,CN,🎯 全球直连
 # > DNS 查询失败走 Final 规则----------------------------------------------
-FINAL,🌏All_Server,dns-failed
+FINAL,🚀 手动切换,dns-failed
 
 [MITM]
 skip-server-cert-verify = true
@@ -119,6 +118,11 @@ ca-passphrase = 162937E4
 ca-p12 = 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
 
 [Script]
+
+# script 使用方法：
+##Sub_info = type=generic,timeout=10,script-path=[raw js script 地址],script-update-interval=0,argument=url=[URL encode 后的机场节点链接]&reset_day=1&title=Nexitally&icon=externaldrive.fill.badge.icloud&color=#007aff
+# ---------------------------------------------------------------------
+
 Sub_info1 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/tom229/Airport-conf/refs/heads/main/Surge/sub_info_panel.js,script-update-interval=0,argument=url=https%3A%2F%2Fsub.sub.sub.subsub123456789.com%2Fanswer%2Fland%3Ftoken%3D34fd199c30cc10c031d920e98c1f9b8b&reset_day=1&title=FSCloud&icon=bonjour&color=#007aff
 
 Sub_info2 = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/tom229/Airport-conf/refs/heads/main/Surge/sub_info_panel.js,script-update-interval=0,argument=url=https%3A%2F%2Fsub.shidongli159.xyz%2Flink%2FseBGDB1ytyLXqHIp%3Flist%3Dsurge&reset_day=1&title=SDCloud&icon=bonjour&color=#007aff
