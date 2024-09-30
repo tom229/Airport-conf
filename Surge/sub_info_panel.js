@@ -43,13 +43,13 @@ let args = getArgs();
   let total = info.total;
   let expire = args.expire || info.expire;
   let content = [
-    `用量: ${bytesToSize(used)} /（${toPercent(used, total)}）`,
-    `总量: ${bytesToSize(total)} \t`
+    `用量: ${bytesToSize(used)} /（${toPercent(used, total)}）`
   ];
   
   if (expire && expire !== "false") {
     if (/^[\d.]+$/.test(expire)) expire *= 1000;
-    content.push(`到期: ${formatTime(expire)}`);
+    content.push(`到期: ${formatTime(expire)}`,
+    `更新: ${hour}:${minutes}`);
   }
 
   let now = new Date();
@@ -59,7 +59,7 @@ let args = getArgs();
   minutes = minutes > 9 ? minutes : "0" + minutes;
 
   $done({
-    title: `机场: ${args.title}  |  更新: ${hour}:${minutes}`,
+    title: `机场: ${args.title}  |  总量: ${bytesToSize(total)}`,
     content: content.join("\n"),
     icon: args.icon || "airplane.circle",
     "icon-color": args.color || "#007aff",
