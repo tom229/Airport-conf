@@ -143,6 +143,10 @@ function bytesToSize(bytes) {
   return (bytes / Math.pow(k, i)).toFixed(2) + " " + sizes[i];
 }
 
+function toPercent(num, total) {
+  return (Math.round((num / total) * 10000) / 100).toFixed(1) + "%";
+}
+
 function formatTime(time) {
   let dateObj = new Date(time);
   let year = dateObj.getFullYear();
