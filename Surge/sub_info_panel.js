@@ -46,6 +46,13 @@ let args = getArgs();
   let now = new Date();
   let hour = now.getHours();
   let minutes = now.getMinutes();
+  let period = hour >= 12 ? 'PM' : 'AM';
+
+  // 将 24 小时制转换为 12 小时制
+  hour = hour % 12;
+  hour = hour ? hour : 12; // 如果 hour 为 0，则设置为 12
+
+  // 格式化小时和分钟，确保它们都是两位数
   hour = hour > 9 ? hour : "0" + hour;
   minutes = minutes > 9 ? minutes : "0" + minutes;
 
@@ -54,9 +61,9 @@ let args = getArgs();
   ];
 
   if (expire && expire !== "false") {
-  if (/^[\d.]+$/.test(expire)) expire *= 1000;
-  content.push(`到期: ${formatTime(expire)}`,
-  `更新: ${hour}:${minutes}`);
+    if (/^[\d.]+$/.test(expire)) expire *= 1000;
+    content.push(`到期: ${formatTime(expire)}`,
+    `更新: ${hour}:${minutes} ${period}`);
   }
 
   $done({
