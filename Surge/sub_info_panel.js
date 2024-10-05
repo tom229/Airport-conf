@@ -38,9 +38,10 @@ let args = getArgs();
   let info = await getDataInfo(args.url);
   if (!info) $done();
   let resetDayLeft = getRemainingDays(parseInt(args["reset_day"]));
-  let remaining = bytesToSize(total - used);
   let used = info.download + info.upload;
   let total = info.total;
+  let remaining = bytesToSize(total - used);
+ 
   let expire = args.expire || info.expire;
 
   let now = new Date();
