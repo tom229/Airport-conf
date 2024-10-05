@@ -38,7 +38,7 @@ let args = getArgs();
   let info = await getDataInfo(args.url);
   if (!info) $done();
   let resetDayLeft = getRemainingDays(parseInt(args["reset_day"]));
-
+  let remaining = bytesToSize(total - used);
   let used = info.download + info.upload;
   let total = info.total;
   let expire = args.expire || info.expire;
@@ -57,7 +57,7 @@ let args = getArgs();
   minutes = minutes > 9 ? minutes : "0" + minutes;
 
   let content = [
-  `用量: ${bytesToSize(used)} /（${toPercent(used, total)}）`
+  `用量: ${bytesToSize(used)} / ${bytesToSize(total)}（${toPercent(used, total)}）`
   ];
 
   if (expire && expire !== "false") {
@@ -67,7 +67,7 @@ let args = getArgs();
   }
 
   $done({
-    title: `机场: ${args.title}  |  总量: ${bytesToSize(total)}`,
+    title: `机场: ${args.title} -> 剩余: ${remaining}`,
     content: content.join("\n"),
     icon: args.icon || "airplane.circle",
     "icon-color": args.color || "#007aff",
