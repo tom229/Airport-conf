@@ -58,9 +58,7 @@ let args = getArgs();
 
   let content = [
     `用量: ${bytesToSize(used)} / ${bytesToSize(total)}（${toPercent(
-      used,
-      total
-    )}）`,
+      used,total)}）`
   ];
 
   if (expire && expire !== "false") {
