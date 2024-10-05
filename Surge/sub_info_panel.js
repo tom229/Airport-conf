@@ -42,11 +42,11 @@ let args = getArgs();
   let used = info.download + info.upload;
   let total = info.total;
   let expire = args.expire || info.expire;
-  
+
   let now = new Date();
   let hour = now.getHours();
   let minutes = now.getMinutes();
-  let period = hour >= 12 ? 'PM' : 'AM';
+  let period = hour >= 12 ? "PM" : "AM";
 
   // 将 24 小时制转换为 12 小时制
   hour = hour % 12;
@@ -57,13 +57,18 @@ let args = getArgs();
   minutes = minutes > 9 ? minutes : "0" + minutes;
 
   let content = [
-  `用量: ${bytesToSize(used)} / ${bytesToSize(total)}（${toPercent(used, total)}）`
+    `用量: ${bytesToSize(used)} / ${bytesToSize(total)}（${toPercent(
+      used,
+      total
+    )}）`,
   ];
 
   if (expire && expire !== "false") {
     if (/^[\d.]+$/.test(expire)) expire *= 1000;
-    content.push(`到期: ${formatTime(expire)}`,
-    `更新: ${hour}:${minutes} ${period}`);
+    content.push(
+      `到期: ${formatTime(expire)}`,
+      `更新: ${hour}:${minutes} ${period}`
+    );
   }
 
   $done({
@@ -161,7 +166,6 @@ function toPercent(num, total) {
   return (Math.round((num / total) * 10000) / 100).toFixed(1) + "%";
 }
 
-
 function toMultiply(total, num) {
   let totalDecimalLen, numDecimalLen, maxLen, multiple;
   try {
@@ -176,7 +180,9 @@ function toMultiply(total, num) {
   }
   maxLen = Math.max(totalDecimalLen, numDecimalLen);
   multiple = Math.pow(10, maxLen);
-  const numberSize = ((total * multiple - num * multiple) / multiple).toFixed(maxLen);
+  const numberSize = ((total * multiple - num * multiple) / multiple).toFixed(
+    maxLen
+  );
   return bytesToSize(numberSize);
 }
 
@@ -187,4 +193,5 @@ function formatTime(time) {
   let day = dateObj.getDate();
   month = month > 9 ? month : "0" + month;
   day = day > 9 ? day : "0" + day;
-  return year + "年" + month + "月" + day + "日";}
+  return year + "年" + month + "月" + day + "日";
+}
