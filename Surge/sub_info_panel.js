@@ -31,6 +31,8 @@ Sub_info = script-name=Sub_info,update-interval=600
 可选参数"color=xxx" 当使用 icon 字段时，可传入 color 字段控制图标颜色，字段内容为颜色的 HEX 编码。如：color=#007aff
 ----------------------------------------
 */
+
+
 let args = getArgs();
 
 (async () => {
@@ -42,45 +44,59 @@ let args = getArgs();
   let remaining = bytesToSize(total - used);
  
   let expire = args.expire || info.expire;
-  let expireDaysText = ""; // 新增：存储剩余天数文本
 
-  // ========== 新增逻辑：计算剩余天数 ==========
-  if (expire && expire !== "false") {
-    let expireTime = parseExpire(expire);
-    if (!isNaN(expireTime)) {
-      const now = new Date().getTime();
-      const diff = expireTime - now;
-      const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
-      
-      if (daysLeft > 0) {
-        expireDaysText = `（剩余 ${daysLeft} 天）`;
-      } else if (daysLeft === 0) {
-        expireDaysText = `（今日到期）`;
-      } else {
-        expireDaysText = `（已过期 ${Math.abs(daysLeft)} 天）`;
-      }
-    }
-  }
-
-  // ========== 时间显示部分 ==========
   let now = new Date();
   let hour = now.getHours();
   let minutes = now.getMinutes();
   let period = hour >= 12 ? "PM" : "AM";
-  hour = hour % 12 || 12;
+
+  // 将 24 小时制转换为 12 小时制
+  hour = hour % 12;
+  hour = hour ? hour : 12; // 如果 hour 为 0，则设置为 12
+
+  // 格式化小时和分钟，确保它们都是两位数
   hour = hour > 9 ? hour : "0" + hour;
   minutes = minutes > 9 ? minutes : "0" + minutes;
 
   let content = [
-    `用量: ${bytesToSize(used)} / ${bytesToSize(total)}（${toPercent(used,total)}）`
+    `用量: ${bytesToSize(used)} / ${bytesToSize(total)}（${toPercent(
+      used,total)}）`
   ];
 
-  if (expire && expire !== "false") {
-    content.push(
-      `到期: ${formatTime(expire)}${expireDaysText}`, // 添加剩余天数
-      `更新: ${hour}:${minutes} ${period}`
-    );
+ if (expire && expire !== "false") {
+  if (/^[\d.]+$/.test(expire)) {
+    let expireNum = parseFloat(expire);
+    if (expireNum <= 9999999999) { // 处理秒级时间戳
+      expire = expireNum * 1000;
+    } else {
+      expire = expireNum;
+    }
   }
+
+  const expireDate = new Date(expire);
+  const now = new Date();
+
+  // 计算两个日期的午夜时间以忽略时间部分
+  const expireMidnight = new Date(expireDate.getFullYear(), expireDate.getMonth(), expireDate.getDate());
+  const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const timeDiff = expireMidnight - nowMidnight;
+  const diffDays = Math.floor(timeDiff / (1000 * 3600 * 24)); // 计算天数差
+
+  let daysLeftText;
+  if (diffDays > 0) {
+    daysLeftText = `剩余${diffDays}天`;
+  } else if (diffDays === 0) {
+    daysLeftText = '今天到期';
+  } else {
+    daysLeftText = `已过期${Math.abs(diffDays)}天`;
+  }
+
+  content.push(
+    `到期: ${formatTime(expire)} (${daysLeftText})`, // 添加剩余天数
+    `更新: ${hour}:${minutes} ${period}`
+  );
+}
 
   $done({
     title: `机场: ${args.title} -> 剩余: ${remaining}`,
@@ -90,16 +106,120 @@ let args = getArgs();
   });
 })();
 
-// ========== 新增函数：智能解析时间 ==========
-function parseExpire(expire) {
-  // 处理纯数字（时间戳）
-  if (/^\d+$/.test(expire)) {
-    const timestamp = parseInt(expire);
-    // 自动判断秒级/毫秒级时间戳（1e12 = 2001-09-09 开始）
-    return timestamp < 1e12 ? timestamp * 1000 : timestamp;
-  }
-  
-  // 处理日期字符串（如 2024-10-01）
-  const date = new Date(expire);
-  return isNaN(date) ? null : date.getTime();
+function getArgs() {
+  return Object.fromEntries(
+    $argument
+      .split("&")
+      .map((item) => item.split("="))
+      .map(([k, v]) => [k, decodeURIComponent(v)])
+  );
 }
+
+function getUserInfo(url, method = "head") {
+  let request = { headers: { "User-Agent": "Quantumult%20X" }, url };
+  return new Promise((resolve, reject) =>
+    $httpClient[method](request, (err, resp) => {
+      if (err != null) {
+        reject(err);
+        return;
+      }
+      if (resp.status !== 200) {
+        reject(resp.status);
+        return;
+      }
+      let header = Object.keys(resp.headers).find(
+        (key) => key.toLowerCase() === "subscription-userinfo"
+      );
+      if (header) {
+        resolve(resp.headers[header]);
+        return;
+      }
+      reject("链接响应头不带有流量信息");
+    })
+  );
+}
+
+async function getDataInfo(url) {
+  const [err, data] = await getUserInfo(url)
+    .then((data) => [null, data])
+    .catch((err) => [err, null]);
+  if (err) {
+    console.log(err);
+    return;
+  }
+
+  return Object.fromEntries(
+    data
+      .match(/\w+=[\d.eE+-]+/g)
+      .map((item) => item.split("="))
+      .map(([k, v]) => [k, Number(v)])
+  );
+}
+
+function getRemainingDays(resetDay) {
+  if (!resetDay) return;
+
+  let now = new Date();
+  let today = now.getDate();
+  let month = now.getMonth();
+  let year = now.getFullYear();
+  let daysInMonth;
+
+  if (resetDay > today) {
+    daysInMonth = 0;
+  } else {
+    daysInMonth = new Date(year, month + 1, 0).getDate();
+  }
+
+  return daysInMonth - today + resetDay;
+}
+
+function bytesToSize(bytes) {
+  if (bytes === 0) return "0B";
+  let k = 1024;
+  sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  let i = Math.floor(Math.log(bytes) / Math.log(k));
+  return (bytes / Math.pow(k, i)).toFixed(2) + " " + sizes[i];
+}
+
+function bytesToSizeNumber(bytes) {
+  if (bytes === 0) return "0";
+  let k = 1024;
+  let i = Math.floor(Math.log(bytes) / Math.log(k));
+  return (bytes / Math.pow(k, i)).toFixed(2);
+}
+
+function toPercent(num, total) {
+  return (Math.round((num / total) * 10000) / 100).toFixed(1) + "%";
+}
+
+function toMultiply(total, num) {
+  let totalDecimalLen, numDecimalLen, maxLen, multiple;
+  try {
+    totalDecimalLen = total.toString().split(".").length;
+  } catch (e) {
+    totalDecimalLen = 0;
+  }
+  try {
+    numDecimalLen = num.toString().split(".").length;
+  } catch (e) {
+    numDecimalLen = 0;
+  }
+  maxLen = Math.max(totalDecimalLen, numDecimalLen);
+  multiple = Math.pow(10, maxLen);
+  const numberSize = ((total * multiple - num * multiple) / multiple).toFixed(
+    maxLen
+  );
+  return bytesToSize(numberSize);
+}
+
+function formatTime(time) {
+  let dateObj = new Date(time);
+  let year = dateObj.getFullYear();
+  let month = dateObj.getMonth() + 1;
+  let day = dateObj.getDate();
+  month = month > 9 ? month : "0" + month;
+  day = day > 9 ? day : "0" + day;
+  return year + "年" + month + "月" + day + "日";
+}
+
