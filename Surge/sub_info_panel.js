@@ -57,10 +57,43 @@ let args = getArgs();
   hour = hour > 9 ? hour : "0" + hour;
   minutes = minutes > 9 ? minutes : "0" + minutes;
 
+  let expire = args.expire || info.expire;
+  let expireDaysLeft = ""; // 新增：存储剩余天数
+  
+  // 计算剩余天数逻辑
+  if (expire && expire !== "false") {
+    let expireTime = expire;
+    if (/^[\d.]+$/.test(expireTime)) expireTime *= 1000; // 处理时间戳
+    
+    let expireDate = new Date(expireTime);
+    let now = new Date();
+    
+    // 计算剩余天数
+    let diffTime = expireDate - now;
+    let daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    // 处理负数（已过期）和显示逻辑
+    if (daysLeft >= 0) {
+      expireDaysLeft = `（剩余${daysLeft}天）`;
+    } else {
+      expireDaysLeft = `（已过期）`;
+    }
+  }
+ 
   let content = [
     `用量: ${bytesToSize(used)} / ${bytesToSize(total)}（${toPercent(
       used,total)}）`
   ];
+ 
+   if (expire && expire !== "false") {
+    if (/^[\d.]+$/.test(expire)) expire *= 1000;
+    content.push(
+      `到期: ${formatTime(expire)}${expireDaysLeft}`, // 修改此行
+      `更新: ${hour}:${minutes} ${period}`
+    );
+  }
+
+  // ...后面代码保持不变...
 
   if (expire && expire !== "false") {
     if (/^[\d.]+$/.test(expire)) expire *= 1000;
@@ -126,6 +159,13 @@ async function getDataInfo(url) {
       .map((item) => item.split("="))
       .map(([k, v]) => [k, Number(v)])
   );
+}
+
+function parseExpire(expire) {
+  if (/^\d+$/.test(expire)) {
+    return parseInt(expire) * (expire < 1e12 ? 1000 : 1); // 自动判断秒/毫秒
+  }
+  return new Date(expire).getTime();
 }
 
 function getRemainingDays(resetDay) {
