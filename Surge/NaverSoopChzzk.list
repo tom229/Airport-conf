@@ -1,8 +1,11 @@
-# NAME: Naver_Chzzk
+# NAME: Naver_Chzzk_Soop
 # AUTHOR: tom
 # UPDATED: 2025-11-09 
 # DOMAIN-SUFFIX: 
 # TOTAL: 
+
+DOMAIN-KEYWORD,sooplive
+DOMAIN-KEYWORD,afreecatv
 
 DOMAIN-KEYWORD,chzzk
 DOMAIN-KEYWORD,akamai
