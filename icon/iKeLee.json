@@ -2,16 +2,25 @@
 	"name": "可莉图标",
 	"description": "可莉的图标订阅",
 	"icons": [
-		{
-			"name": "sooplive.png",
-			"url": "https://raw.githubusercontent.com/tom229/Airport-conf/3fb25200721cf88fea2b057817a5fc7d20ffb9cf/icon/tom-icons/sooplive.png"
-		},
-
-
-        {
-			"name": "fmkorea.png",
-			"url": "https://raw.githubusercontent.com/tom229/Airport-conf/acb66b91115dfd3e77913bf0d5f6bd8e2c2386c6/icon/tom-icons/fmkorea.png"
-		},
+  {"name": "fmkorea.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/acb66b91115dfd3e77913bf0d5f6bd8e2c2386c6/icon/tom-icons/fmkorea.png"}, 
+  {"name": "YouTube.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/d0622dd5fd0d79923260bbcfa9ddb0fd024c7642/icon/tom-icons/YouTube.png"}, 
+  {"name": "AfeecaTV.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/d0622dd5fd0d79923260bbcfa9ddb0fd024c7642/icon/tom-icons/AfreecaTV.png"}, 
+  {"name": "stopsign.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/d0622dd5fd0d79923260bbcfa9ddb0fd024c7642/icon/tom-icons/stopsign.png"}, 
+  {"name": "vpn.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/d0622dd5fd0d79923260bbcfa9ddb0fd024c7642/icon/tom-icons/vpn.png"}, 
+  {"name": "coupangplay.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/daad4357d14b1998bc7d0dbfb71df1b014c03525/icon/tom-icons/coupangplay.png"}, 
+  {"name": "coupangsports.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/daad4357d14b1998bc7d0dbfb71df1b014c03525/icon/tom-icons/coupangsports.png"}, 
+  {"name": "stop-2.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/a16a6f015cd902526c8cb9d7afec4d1fc5f4cc56/icon/tom-icons/stop-2.png"}, 
+  {"name": "stop.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/a16a6f015cd902526c8cb9d7afec4d1fc5f4cc56/icon/tom-icons/stop.png"}, 
+  {"name": "vpn-1.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/dd5fba0e13f4afc2c0940e6d7678ca6034df56b9/icon/tom-icons/vpn-1.png"}, 
+  {"name": "vpn-2.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/dd5fba0e13f4afc2c0940e6d7678ca6034df56b9/icon/tom-icons/vpn-2.png"}, 
+  {"name": "vpn-3.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/dd5fba0e13f4afc2c0940e6d7678ca6034df56b9/icon/tom-icons/vpn-3.png"}, 
+  {"name": "stop-3.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/6f2a19eaee5f9177f4ba17d60fc0ba471440b188/icon/tom-icons/stop-3.png"}, 
+  {"name": "HongKong.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/5bd94245bcc963fb6401e206fb8db990dcb24b2e/icon/tom-icons/HongKong.png"}, 
+  {"name": "ManchesterUnited.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/5bd94245bcc963fb6401e206fb8db990dcb24b2e/icon/tom-icons/ManchesterUnited.png"}, 
+  {"name": "Skorea.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/5bd94245bcc963fb6401e206fb8db990dcb24b2e/icon/tom-icons/Skorea.png"}, 
+  {"name": "panda.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/5bd94245bcc963fb6401e206fb8db990dcb24b2e/icon/tom-icons/panda.png"}, 
+  {"name": "chatgpt.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/585300058863920b1f19f4c480a32c0121bc26b5/icon/tom-icons/chatgpt.png"},
+  {"name": "sooplive.png", "url": "https://raw.githubusercontent.com/tom229/Airport-conf/3fb25200721cf88fea2b057817a5fc7d20ffb9cf/icon/tom-icons/sooplive.png"},
 
 
 
