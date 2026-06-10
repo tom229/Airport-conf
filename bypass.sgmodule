@@ -1,0 +1,23 @@
+#!name=我的自定义放行
+#!desc=用于修正和强制放行特定流量
+
+
+[Rule]
+DOMAIN-SUFFIX,adballoon.sooplive.com, DIRECT
+DOMAIN-SUFFIX,analysis.sooplive.com, DIRECT
+DOMAIN-SUFFIX,analysis.sooplive.co.kr, DIRECT
+
+DOMAIN-SUFFIX,collector1.sooplive.com, DIRECT
+DOMAIN-SUFFIX,collector1.sooplive.co.kr, DIRECT
+DOMAIN-SUFFIX,exlogcollector.sooplive.com, DIRECT
+
+DOMAIN-SUFFIX,deapi.sooplive.com, DIRECT
+DOMAIN-SUFFIX,reqde.sooplive.com, DIRECT
+
+DOMAIN-SUFFIX,delog.sooplive.com, DIRECT
+
+DOMAIN-SUFFIX,logapi.sooplive.com, DIRECT
+DOMAIN-SUFFIX,log-api.sooplive.com, DIRECT
+
+DOMAIN-SUFFIX,eventapi.sooplive.com, DIRECT
+DOMAIN-SUFFIX,vod-mplayer.sooplive.com, DIRECT
